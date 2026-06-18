@@ -1,0 +1,72 @@
+.create-wish-page { padding: 48px 0 80px; }
+
+.create-wish-card {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.create-wish-header { margin-bottom: 32px; }
+
+.create-wish-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.image-upload-area {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg);
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-upload-area:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.image-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.upload-icon { font-size: 2rem; }
+
+.upload-hint {
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+.image-preview {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+}
+
+.input-error { border-color: var(--danger) !important; }
+
+.create-wish-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 600px) {
+  .create-wish-card { padding: 24px 20px; }
+  .create-wish-actions { flex-direction: column-reverse; }
+  .create-wish-actions .btn { width: 100%; }
+}
