@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { authService } from '../services/auth'
+import { useAuth } from '../contexts/AuthContext'
 import './Auth.css'
 
 export default function Register() {
   const navigate = useNavigate()
+  const { setProfileDirect } = useAuth()
   const [searchParams] = useSearchParams()
   const [form, setForm] = useState({
     name: '', email: '', password: '',
@@ -25,7 +27,9 @@ export default function Register() {
     setLoading(true)
     setError('')
     try {
-      await authService.register(form)
+      const data = await authService.register(form)
+      // Seed profile into context immediately — no waiting for DB round-trip
+      if (data.profile) setProfileDirect(data.profile)
       navigate('/dashboard')
     } catch (err) {
       setError(err.message || 'Failed to create account.')

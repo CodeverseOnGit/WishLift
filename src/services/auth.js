@@ -5,12 +5,16 @@ export const authService = {
     const { data, error } = await supabase.auth.signUp({ email, password })
     if (error) throw error
 
+    // Insert profile immediately — before onAuthStateChange can fire and
+    // try to load a profile row that doesn't exist yet.
     const { error: profileError } = await supabase
       .from('users')
       .insert({ id: data.user.id, name, email, role })
     if (profileError) throw profileError
 
-    return data
+    // Return the role alongside so AuthContext can set it directly
+    // without needing a round-trip fetch.
+    return { ...data, profile: { id: data.user.id, name, email, role } }
   },
 
   async login({ email, password }) {

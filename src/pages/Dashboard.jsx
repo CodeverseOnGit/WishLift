@@ -47,7 +47,7 @@ export default function Dashboard() {
 
   const pendingRequests = contactRequests.filter(r => r.status === 'Pending')
 
-  if (loading) return (
+  if (loading || !profile) return (
     <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div className="spinner spinner-dark" />
     </div>

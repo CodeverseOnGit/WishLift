@@ -25,14 +25,20 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  async function loadProfile(userId) {
+  // Retry up to 5 times with backoff — handles the race where
+  // onAuthStateChange fires before the profile row is inserted.
+  async function loadProfile(userId, attempt = 0) {
     try {
       const p = await authService.getProfile(userId)
       setProfile(p)
     } catch (e) {
-      console.error('Error loading profile:', e)
+      if (attempt < 5) {
+        setTimeout(() => loadProfile(userId, attempt + 1), 300 * (attempt + 1))
+      } else {
+        console.error('Could not load profile after retries:', e)
+      }
     } finally {
-      setLoading(false)
+      if (attempt === 0) setLoading(false)
     }
   }
 
@@ -40,8 +46,14 @@ export function AuthProvider({ children }) {
     if (user) await loadProfile(user.id)
   }
 
+  // Called by Register page to seed profile immediately without waiting
+  // for the retry loop — eliminates the race condition entirely.
+  function setProfileDirect(p) {
+    setProfile(p)
+  }
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, refreshProfile }}>
+    <AuthContext.Provider value={{ user, profile, loading, refreshProfile, setProfileDirect }}>
       {children}
     </AuthContext.Provider>
   )

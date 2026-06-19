@@ -26,7 +26,7 @@ export default function Footer() {
       </div>
       <div className="footer-bottom">
         <div className="container">
-          <p>© {new Date().getFullYear()} WishLift. Built with generosity in mind.</p>
+          <p>© {new Date().getFullYear()} Codeverse. Built with generosity in mind.</p>
         </div>
       </div>
     </footer>
