@@ -64,9 +64,28 @@ export default function Messages() {
     setSending(true)
     const text = newMessage
     setNewMessage('')
+    
+    // Create optimistic message
+    const optimisticMessage = {
+      id: `temp-${Date.now()}`,
+      conversation_id: activeConv.id,
+      sender_id: user.id,
+      message: text,
+      created_at: new Date().toISOString(),
+      users: { id: user.id, name: user.user_metadata?.name || user.email, avatar_url: user.user_metadata?.avatar_url }
+    }
+    
+    // Add to UI immediately
+    setMessages(prev => [...prev, optimisticMessage])
+    
     try {
       await messagesService.sendMessage(activeConv.id, user.id, text)
-    } catch (err) { console.error(err); setNewMessage(text) }
+    } catch (err) { 
+      console.error(err)
+      setNewMessage(text)
+      // Remove optimistic message on error
+      setMessages(prev => prev.filter(m => m.id !== optimisticMessage.id))
+    }
     finally { setSending(false) }
   }
 
