@@ -21,6 +21,7 @@ export default function Footer() {
             <Link to="/login" className="footer-link">Sign In</Link>
             <Link to="/register" className="footer-link">Create Account</Link>
             <Link to="/dashboard" className="footer-link">Dashboard</Link>
+            <Link to="/privacy" className="footer-link">Privacy Policy</Link>
           </div>
         </div>
       </div>

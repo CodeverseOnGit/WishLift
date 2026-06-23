@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Messages from './pages/Messages'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -33,6 +34,7 @@ function AppRoutes() {
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
           <Route path="/messages/:conversationId" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
         </Routes>
       </main>
       <Footer />
